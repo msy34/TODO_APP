@@ -1,0 +1,126 @@
+﻿<Window x:Class="TODO.BoardCards"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:TODO"
+        mc:Ignorable="d"
+        Title="Board Cards" Height="562.027" Width="1000" AllowsTransparency="True" WindowStyle="None">
+    <Window.Resources>
+        <Style x:Key="ButtonStyle1" TargetType="{x:Type Button}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Grid>
+                            <Rectangle RadiusY="10" RadiusX="10" Stroke="Black" Height="26.96" VerticalAlignment="Bottom">
+                                <Rectangle.Fill>
+                                    <ImageBrush ImageSource="Content/zmn_parlak.jpg"/>
+                                </Rectangle.Fill>
+                            </Rectangle>
+                            <ContentPresenter x:Name="btnfiltre" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" Content="Filtrele"/>
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsFocused" Value="True"/>
+                            <Trigger Property="IsDefaulted" Value="True"/>
+                            <Trigger Property="IsMouseOver" Value="True"/>
+                            <Trigger Property="IsPressed" Value="True"/>
+                            <Trigger Property="IsEnabled" Value="False"/>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style x:Key="ButtonStyle2" TargetType="{x:Type Button}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Grid>
+                            <Rectangle RadiusY="10" RadiusX="10" Stroke="Black" Height="26.96" VerticalAlignment="Bottom">
+                                <Rectangle.Fill>
+                                    <ImageBrush ImageSource="Content/zmn_parlak.jpg"/>
+                                </Rectangle.Fill>
+                            </Rectangle>
+                            <ContentPresenter x:Name="btnAdd" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" Content="AddNew"/>
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsFocused" Value="True"/>
+                            <Trigger Property="IsDefaulted" Value="True"/>
+                            <Trigger Property="IsMouseOver" Value="True"/>
+                            <Trigger Property="IsPressed" Value="True"/>
+                            <Trigger Property="IsEnabled" Value="False"/>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
+
+    <Window.Background>
+        <ImageBrush/>
+    </Window.Background>
+
+    <Grid x:Name="LayoutRoot">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="412*" />
+            <ColumnDefinition Width="566*" />
+        </Grid.ColumnDefinitions>
+        <Rectangle Margin="2,12,35,40" Stroke="Black" RadiusX="31.5" RadiusY="31.5" Grid.ColumnSpan="2">
+            <Rectangle.Fill>
+                <ImageBrush ImageSource="Content/zmn_koyugri.jpg"/>
+            </Rectangle.Fill>
+        </Rectangle>
+        <Image Height="118" HorizontalAlignment="Left" Margin="-73,-15,0,0" x:Name="image1" Stretch="Fill" VerticalAlignment="Top" Width="277" />
+        <Label Content="Name" HorizontalAlignment="Left" Margin="42,61,0,0" VerticalAlignment="Top" Height="25" FontWeight="Bold"/>
+        <Label Content="Description" HorizontalAlignment="Left" Margin="252,61,0,0" VerticalAlignment="Top" Height="25" FontWeight="Bold"/>
+        <Label Content="Status" HorizontalAlignment="Left" Margin="56,61,0,0" VerticalAlignment="Top" Height="25" FontWeight="Bold" RenderTransformOrigin="2.774,0.379" Grid.Column="1"/>
+        <Button x:Name="btnfiltre" Content="Filtrele" HorizontalAlignment="Left" Height="30"  Style="{DynamicResource ButtonStyle1}" VerticalAlignment="Top" Width="100" FontWeight="Bold" Grid.Column="1" Click="btnfiltre_Click" Margin="268,84,0,0">
+            <Button.ToolTip>
+                <ToolTip>
+                    <StackPanel Background="Honeydew">
+                    </StackPanel>
+                </ToolTip>
+            </Button.ToolTip>
+        </Button>
+
+        <DataGrid AutoGenerateColumns="False" Height="285" HorizontalAlignment="Left" Margin="10,191,0,0" Name="boardDataGrid" VerticalAlignment="Top" Width="937" FontWeight="Bold" Grid.ColumnSpan="2" LoadingRow="boardDataGrid_LoadingRow" >
+            <DataGrid.Columns>
+                <DataGridTextColumn Binding="{Binding Id}" Header="Id" Width="5*"/>
+                <DataGridTextColumn Binding="{Binding Name}" Header="Name" Width="20*"/>
+                <DataGridTextColumn Binding="{Binding Description}" Header="Description" Width="30*"/>
+                <DataGridTextColumn Binding="{Binding Deadline,StringFormat=\{0:yyyy/MM/dd HH:mm:ss\}}" Header="Deadline" Width="10*"/>
+                <DataGridTextColumn Binding="{Binding Status}" Header="Status"  Width="10*"/>
+                <DataGridTextColumn Binding="{Binding CreatedDate,StringFormat=\{0:yyyy/MM/dd HH:mm:ss\}}" Header="CreatedDate" Width="10*"/>
+                <DataGridTemplateColumn Header="Edit Row" Width="5*">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Button Content="Edit" Click="btnEdit_Click"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Delete Row" Width="5*">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Button Content="Delete" Click="btnDelete_Click"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
+            <DataGrid.ColumnHeaderStyle>
+                <Style TargetType="{x:Type DataGridColumnHeader}">
+                    <Setter Property="Foreground" Value="blue">
+                    </Setter>
+                </Style>
+            </DataGrid.ColumnHeaderStyle>
+        </DataGrid>
+        <ComboBox Height="23" HorizontalAlignment="Left" Margin="56,91,0,0" Name="statusCombobox" VerticalAlignment="Top" Width="120" Grid.Column="1" IsEditable="True" FontWeight="Bold" />
+        <TextBox Height="23" HorizontalAlignment="Left" Margin="42,91,0,0" Name="searchName" VerticalAlignment="Top" Width="120"/>
+        <TextBox Height="23" HorizontalAlignment="Left" Margin="252,91,0,0" Name="searchDescription" VerticalAlignment="Top" Width="120"  />
+        <Button x:Name="btnAdd" Content="AddNew" HorizontalAlignment="Left" Height="30"  Style="{DynamicResource ButtonStyle2}" VerticalAlignment="Top" Width="100" FontWeight="Bold" Click="btnAdd_Click" Margin="42,26,0,0">
+            <Button.ToolTip>
+                <ToolTip>
+                    <StackPanel Background="Honeydew"/>
+                </ToolTip>
+            </Button.ToolTip>
+        </Button>
+    </Grid>
+</Window>
